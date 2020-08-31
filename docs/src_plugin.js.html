@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/plugin.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="src_db.module_js-db.html">db</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#all">all</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#clear">clear</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#createTable">createTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#deleteTable">deleteTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#getTable">getTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#hasTable">hasTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#loadPlugins">loadPlugins</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#toJSON">toJSON</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="src_plugin.module_js-Plugin.html">Plugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_plugin.module_js-Plugin.html#selfDestruct">selfDestruct</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-db%2520web%2520manager.html">db web manager</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-htmldb.html">htmldb</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="src_db.module_js.html">src/db.js</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="src_plugin.module_js.html">src/plugin.js</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/plugin.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ *@file plugin
+ *@description Plugin Class
+ *@exports htmldb.Plugin
+ *@example
+ * class Dx extends HtmlDB.Plugin{
+ *  constructor(){
+ *      let PluginInfo = {
+ *          name:"NodeNodeNodeNode"
+ *      }
+ *      super(PluginInfo);
+ *      return true;
+ *  }
+ *  run(self){
+ *      self.node = true;
+ *      //...
+ *  }
+ * }
+ * //...
+ */
+class Plugin {
+    /**
+     * @typedef {Object} pluginOpt plugin options
+     * @property {String} name 
+     */
+    /**
+     * 
+     * @param {pluginOpt} opt info for plugin
+     */
+    constructor(opt) {
+        if (!opt.name) {
+            throw new Error("Plugin name not found ");
+        }
+        this.name = opt.name;
+    }
+    /**
+     * @description self destructs the plugin
+     */
+    selfDestruct() {
+        Object.entries(this).forEach(ob => {
+            if (ob == "selfDestruct") { return; }
+            delete this[ob];
+        });
+        return 0;
+    }
+}
+
+
+
+module.exports.Plugin = Plugin</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 17 2020 18:32:02 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

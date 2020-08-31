@@ -1,0 +1,32 @@
+{
+  "name": "nodered-db",
+  "version": "3.6.0",
+  "description": "Code Red! CODE RED!!! THE DATABASE IS BETTER!",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "build": "jsdoc -c jsdoc.json"
+  },
+  "dependencies": {
+    "docma": "^3.2.0",
+    "express": "^4.17.1",
+    "jsdoc": "^3.6.4",
+    "minami": "^1.2.3",
+    "prettier": "^2.0.5",
+    "ub-jsdoc": "^2.3.3"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "keywords": [
+    "db",
+    "js"
+  ],
+  "repository": {
+    "url": "https://github.com/jonyk56/node-red-db",
+    "type": "git"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.20"
+  }
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/db.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="src_db.module_js-db.html">db</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#all">all</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#clear">clear</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#createTable">createTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#deleteTable">deleteTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#getTable">getTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#hasTable">hasTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#loadPlugins">loadPlugins</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_db.module_js-db.html#toJSON">toJSON</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="src_plugin.module_js-Plugin.html">Plugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="src_plugin.module_js-Plugin.html#selfDestruct">selfDestruct</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-db%2520web%2520manager.html">db web manager</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-htmldb.html">htmldb</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="src_db.module_js.html">src/db.js</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="src_plugin.module_js.html">src/plugin.js</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/db.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*nodejs version of HTML-DB*/
+
+/**
+ *@file db
+ *@description database class
+ *@exports htmldb.db
+ *@example
+ * let database = new HtmlDB.db();
+ * ...
+ */
+class db {
+    /**
+     * @param {Array} data the database ( if not provided,it will grab from file, if it can)
+     * @returns {(boolean|Error)}
+     */
+    constructor(data = []) {
+        Object.defineProperty(this, "db", {
+            value: new Map(data),
+            writable: true,
+            configurable: true
+        });
+        try {
+            this.load();
+        } catch (e) {
+            Object.defineProperty(this, "_conf_load_at_boot", {
+                value: e,
+                writable: true,
+                configurable: true
+            });
+        }
+        return true;
+    }
+
+    /**
+     *@returns {Array}
+     *@description Returns all tables/data from database
+     *@param {string} name name of table
+     */
+    all() {
+        return Array.from(this.db);
+    }
+    /**
+     *@async
+     *@description creates a table in the database
+     *@returns {(boolean|Error)}
+     *@example
+     * db.createTable("Hello World!");
+     * db.getTable("Hellow World!").set("a", "b"); // true
+     *@param {string} name name of table
+     */
+    async createTable(name) {
+        this.db.set(name, new Map());
+        await this.save();
+        return true;
+    }
+    /**
+     *@returns {(boolean|Error)}
+     *@async
+     *@description deletes a table in the database
+     *@param {string} name name of table
+     */
+    async deleteTable(name) {
+        this.db.delete(name);
+        await this.save();
+        return true;
+    }
+    /**
+     *@returns {(Map|null)}
+     *@description Get Table
+     *@param {string} name name of table
+     */
+    getTable(name) {
+        return this.db.get(name);
+    }
+    /**
+     *@returns {boolean}
+     *@description Check If Table Exists
+     *@param {string} name name of table
+     */
+    hasTable(name) {
+        if (this.db.has(name)) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     *@returns {(Array|Error)}
+     *@description turns the data provided ( not required ) into an Array that can be jsonfied ( json.stringify )
+     *@param {Map} data the data/stored data of the database ( not required)
+     */
+
+    toJSON(data = this.db) {
+        var ar = {};
+        let keys = data.keys();
+        for (const item of keys) {
+            let ite = Object.fromEntries(this.db.get(item));
+            ar[item] = ite;
+        }
+        return Array.from(Object.entries(ar));
+    }
+    /**
+     *@description saves the table to file ( note - not working as expected, figuring out the issue)
+     */
+    async save() {
+        let d = this.toJSON();
+        d = JSON.stringify(d);
+        let fs = require("fs");
+        await fs.writeFileSync(
+            "h.db.json",
+            d,
+            { encoding: "utf8", flag: "w+" },
+            e => {
+                if (e) throw e;
+            }
+        );
+        return true;
+    }
+    /**
+     *@description LOAD FROM FILE
+     */
+    async load() {
+        let fs = require("fs");
+        let data = await fs.readFileSync("h.db.json", {
+            encoding: "utf8",
+            flag: "r+"
+        });
+        this.db = new Map(JSON.parse(data));
+    }
+    /**
+     *@description clear the database
+     */
+    async clear() {
+        this.db.clear();
+        await this.save();
+    }
+
+    /**
+     * @description load plugins
+     * @param {Array} pluginList Array of plugins
+     */
+    loadPlugins(pluginList) {
+        this.plugins = []
+        let self = this;
+        pluginList.forEach(pl => {
+            pl.run(self);
+            this.plugins.push(pl.name);
+        });
+        return true;
+    }
+}
+module.exports = db;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Jun 17 2020 18:32:02 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
