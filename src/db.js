@@ -1,6 +1,7 @@
 const fs = require("fs");
-const path = require("path")
-/**@class db */
+const path = require("path");
+const util = require("util")
+
 module.exports = class {
     /**
      * 
@@ -11,9 +12,21 @@ module.exports = class {
         if (!PreloadedDatabase.startsWith(process.cwd())){
             throw new Error("Database path must begin with the current executing path ( process.cwd )");
         }
-        let FileStats = fs.statSync(PreloadedDatabase);
-        if (!FileStats.isFile()){
-            throw new Error("The path provided does not lead to a file, ")
-        }
+        
+        
+    }
+    /**
+     * 
+     * @param {string} FilePath path to the file
+     */
+    static mkFile(FilePath){
+        return fs.writeFileSync(FilePath, "{ }", {encoding:"utf8",flag:"wx+"});
+    }
+    /**
+     * 
+     * @param {string} FilePath path to the file
+     */
+    static ReadFile(FilePath){
+        return fs.readFileSync(FilePath, { encoding:"utf8", flag:"r"});
     }
 }
