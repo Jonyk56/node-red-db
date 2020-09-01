@@ -1,6 +1,9 @@
 const fs = require("fs-extra");
 const path = require("path");
 const util = require("util");
+const { Console } = require("console");
+let OutPut = fs.createWriteStream("./log")
+console = new Console({stdout: OutPut, stderr: OutPut, listenerCount:300});
 /**
  * @typedef {string} SearchResult
  */
